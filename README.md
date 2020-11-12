@@ -10,6 +10,13 @@
   - Recursive implementation (very slow, lower memory usage)
 
 ## Instructions:
+`SimilarStringsMemory.exe <filepath> <targetString>`  
+* filepath - path to file with strings separted by '\n'
+* targetString - a string used to search similar strings to it  
+Running example: 
+`SimilarStringsMemory.exe input.txt pqwns`  
+
+Or run without arguments:
 1. Generate file, answering 'y' or use generated file after 'n';
 2. Write a string to search in the file
 
