@@ -26,6 +26,8 @@ Enter string to search: pqwns
 ```
 Output:
 ```sh
+Target string to search: pqwns
+Maximum number of changes allowed: 3
 Done in: 6924ms
 Memory used: 317840KB
 Found more than 15 strings, displaying first 15:
