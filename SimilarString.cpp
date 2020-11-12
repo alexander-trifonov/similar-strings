@@ -5,8 +5,6 @@
 #include <filesystem>
 #include <stdlib.h>
 
-#include <iostream>
-
 using namespace std;
 
 void SimilarString::ReadFile(string filepath)
@@ -91,9 +89,7 @@ vector<string> SimilarString::FindSimilar(string& target, int k)
 	unsigned short int dist;
 	for (string& data_string : this->data)
 	{
-		cout << data_string << endl;
 		auto dist = distLev2(target, data_string);
-		cout << data_string << endl << " " << target << " " << dist<< endl;
 		if ( dist <= k)
 			res.push_back(data_string);
 	}
