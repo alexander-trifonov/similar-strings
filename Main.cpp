@@ -1,7 +1,11 @@
+#include <Windows.h> // must be used BEFORE 'using namespace std'
+#include "psapi.h"
 #include "FileGenerator.h"
 #include "SimilarString.h"
 #include <iostream>
 #include <chrono> //time measurement
+
+//#include "windows.h" // memory usage
 
 using namespace std;
 
@@ -62,10 +66,19 @@ void main(int argc, char* argv[])
 	}
 
 	cout << "Target string to search: " << target << "\nMaximum number of changes allowed: " << k << endl;
+	
 	time_start = chrono::steady_clock::now();
 	auto strings = A.FindSimilar(target, k);
 	time_end = chrono::steady_clock::now();
+	
+	// Memory usage
+	PROCESS_MEMORY_COUNTERS_EX pmc;
+	GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
+	SIZE_T virtualMemUsedByMe = pmc.PrivateUsage;
+	SIZE_T physMemUsedByMe = pmc.WorkingSetSize;
+
 	cout << "Done in: " << chrono::duration_cast<chrono::milliseconds>(time_end - time_start).count() << "ms\n";
+	cout << "Memory used: " << physMemUsedByMe /1024 << "KB" << endl;
 	if (strings.size() < 15)
 	{
 		cout << "Output: \n";
@@ -79,5 +92,6 @@ void main(int argc, char* argv[])
 		for (int i = 0; i < 15; i++)
 			cout << strings[i] << endl;
 	}
+	
 	
 }
