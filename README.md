@@ -1,6 +1,6 @@
 # similar-strings
 ## Solved problems:
-1. Reading large files fast
+1. Generating large files fast
   - Multithread implementation
   - Singlethread implementation (faster)
 2. Levenshtein Distance with limited memory usage (x10 of file size)
