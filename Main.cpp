@@ -53,7 +53,7 @@ void main(int argc, char* argv[])
 
 	cout << "[[ Searching a string ]]\n";
 	string target;
-	int k = 3;
+	int k = 1;
 	if (argc > 2)
 		target = argv[2];
 	else
