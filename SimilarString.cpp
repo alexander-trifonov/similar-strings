@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <stdlib.h>
 
+#include <iostream>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ void SimilarString::ReadFile(string filepath)
 	string buffer;
 	while (getline(if_stream, buffer, '\n'))
 	{
+		buffer = buffer.substr(0, buffer.find("\r"));
 		data.push_back(buffer);
 	}
 	if_stream.close();
@@ -74,8 +76,8 @@ unsigned short int SimilarString::distLev2(string& a, string& b)
 		for (unsigned int j = 1; j <= b_len; ++j)
 			d[i][j] = std::min(
 				{
-					d[i - 1][j] + 1,
 					d[i][j - 1] + 1,
+					d[i - 1][j] + 1,
 					d[i - 1][j - 1] + (a[i - 1] == b[j - 1] ? 0 : 1)
 				});
 	return d[a_len][b_len];
@@ -89,7 +91,10 @@ vector<string> SimilarString::FindSimilar(string& target, int k)
 	unsigned short int dist;
 	for (string& data_string : this->data)
 	{
-		if (distLev2(target, data_string) <= k)
+		cout << data_string << endl;
+		auto dist = distLev2(target, data_string);
+		cout << data_string << endl << " " << target << " " << dist<< endl;
+		if ( dist <= k)
 			res.push_back(data_string);
 	}
 	return res;
