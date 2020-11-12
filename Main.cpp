@@ -5,33 +5,63 @@
 
 using namespace std;
 
-void main()
+void main(int argc, char* argv[])
 {
+	chrono::steady_clock::time_point time_start;
+	chrono::steady_clock::time_point time_end;
 	cout << "[[ File generation ]]\n";
-	auto time_start = chrono::steady_clock::now();
-	GenerateFile(4, 5, 100000);
-	auto time_end = chrono::steady_clock::now();
-	cout << "Done in: " << chrono::duration_cast<chrono::milliseconds>(time_end - time_start).count() << "ms\n";
+	char answer;
+	string filepath;
+	
+
+	if (argc > 1)
+	{
+		filepath = argv[1];
+	}
+	else
+	{
+		cout << "Generate a new file, named 'input.txt'? y/n: ";
+		cin >> answer;
+		if (answer == 'y')
+		{
+			time_start = chrono::steady_clock::now();
+			GenerateFile(4, 5, 10000000);
+			time_end = chrono::steady_clock::now();
+			cout << "Done in: " << chrono::duration_cast<chrono::milliseconds>(time_end - time_start).count() << "ms\n";
+			filepath = "input.txt";
+		}
+		else
+			if (answer == 'n')
+			{
+				cout << "Write path to the file: ";
+				cin >> filepath;
+			}
+	}
+		
+	
 	
 	cout << "[[ File reading ]]\n";
 	time_start = chrono::steady_clock::now();
 	SimilarString A;
-	A.ReadFile("input.txt");
+	A.ReadFile(filepath);
 	time_end = chrono::steady_clock::now();
 	cout << "Done in: " << chrono::duration_cast<chrono::milliseconds>(time_end - time_start).count() << "ms\n";
 
-	//for (auto& i : A.data)
-	//{
-	//	cout << i << endl;
-	//}
-	//cout << "String to search: ";
-
 	cout << "[[ Searching a string ]]\n";
-	string target = A.data[3];
+	string target;
 	int k = 3;
+	if (argc > 2)
+		target = argv[2];
+	else
+	{
+		cout << "To help you, you can write one of these first strings in the file:" << endl;
+		cout << "* " << A.data[1] << endl;
+		cout << "* " <<  A.data[2] << endl;
+		cout << "Enter string to search: ";
+		cin >> target;
+	}
 
 	cout << "Target string to search: " << target << "\nMaximum number of changes allowed: " << k << endl;
-	//cin >> target;
 	time_start = chrono::steady_clock::now();
 	auto strings = A.FindSimilar(target, k);
 	time_end = chrono::steady_clock::now();
