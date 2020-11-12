@@ -3,7 +3,9 @@
 1. Generating large files fast
   - Multithread implementation
   - Singlethread implementation (faster)
-2. Levenshtein Distance with limited memory usage (x10 of file size)
+2. Reading a large file into one string fast
+  - Not used, because not necessary
+3. Levenshtein Distance with limited memory usage (x10 of file size)
   - Matrix using implementation (fast, low memory usage)  
   - Recursive implementation (very slow, lower memory usage)
 
