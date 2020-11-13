@@ -4,7 +4,8 @@
 #include <vector>
 #include <filesystem>
 #include <stdlib.h>
-
+#include <array>
+#include <iostream>
 using namespace std;
 
 void SimilarString::ReadFile(string filepath)
@@ -66,6 +67,7 @@ unsigned short int SimilarString::distLev2(string& a, string& b)
 	unsigned short b_len = b.length();
 
 	vector<vector<unsigned int> > d(a_len + 1, vector<unsigned int>(b_len + 1));
+
 	d[0][0] = 0;
 	for (unsigned int i = 1; i <= a_len; ++i) d[i][0] = i;
 	for (unsigned int i = 1; i <= b_len; ++i) d[0][i] = i;
@@ -81,6 +83,35 @@ unsigned short int SimilarString::distLev2(string& a, string& b)
 	return d[a_len][b_len];
 }
 
+unsigned short int SimilarString::distLev3(string& a, string& b)
+{
+	unsigned short int a_len = a.length();
+	unsigned short b_len = b.length();
+
+	//vector<vector<unsigned int> > d(a_len + 1, vector<unsigned int>(b_len + 1));
+	//unsigned int* d = new unsigned int[(a_len+1)*(b_len+1)];
+	vector<unsigned int> d((a_len + 1) * (b_len + 1));
+
+	d[0] = 0;
+	for (unsigned int i = 1; i <= a_len; ++i) d[0 + (b_len+1)*i] = i;
+	for (unsigned int i = 1; i <= b_len; ++i) d[0 + i] = i;
+
+	for (unsigned int i = 1; i <= a_len; ++i)
+		for (unsigned int j = 1; j <= b_len; ++j)
+			d[i*(b_len+1) + j] = std::min(
+				{
+					d[i * (b_len + 1) + (j - 1)] + 1,
+					d[(i-1) * (b_len + 1) + j] + 1,
+					d[(i-1) * (b_len + 1) + (j-1)] + (a[i - 1] == b[j - 1] ? 0 : 1)
+				});
+	/*cout << a_len << " " << b_len << endl;
+	for (auto& i : d)
+		cout << i << " ";
+	cout << endl;
+	cout << d[(a_len+1) * (b_len+1) - 1] << endl;*/
+	return d[(a_len + 1) * (b_len + 1) - 1];
+}
+
 // target - string to search
 // k - max k changes to transform the target to the file's string
 vector<string> SimilarString::FindSimilar(string& target, int k)
@@ -89,7 +120,7 @@ vector<string> SimilarString::FindSimilar(string& target, int k)
 	unsigned short int dist;
 	for (string& data_string : this->data)
 	{
-		auto dist = distLev2(target, data_string);
+		auto dist = distLev3(target, data_string);
 		if ( dist <= k)
 			res.push_back(data_string);
 	}

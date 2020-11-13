@@ -22,6 +22,9 @@ public:
 
 	// Implemented through A[][] matrix
 	unsigned short int distLev2(string& a, string& b);
+
+	// One-dimensional array
+	unsigned short int distLev3(string& a, string& b);
 	
 	//https://en.wikipedia.org/wiki/Levenshtein_distance
 	// target - string to search
